@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>🐢🐧 힐링 테스트</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 메인 -->
+  <div id="main" class="page active">
+    <h1>🐢🐧 오늘의 나 상태 테스트</h1>
+
+    <div class="container">
+      <div class="card turtle" onclick="selectCard('turtle')">
+        <div class="emoji">🐢</div>
+        <h2>거북이</h2>
+        <p>느긋하게 쉬고 싶은 날</p>
+      </div>
+
+      <div class="card penguin" onclick="selectCard('penguin')">
+        <div class="emoji">🐧</div>
+        <h2>펭귄</h2>
+        <p>활발하게 놀고 싶은 날</p>
+      </div>
+    </div>
+
+    <button onclick="goResult()">선택 완료</button>
+  </div>
+
+  <!-- 결과 -->
+  <div id="resultPage" class="page">
+    <h1 id="resultTitle"></h1>
+    <div id="scene"></div>
+    <button onclick="goBack()">다시 선택</button>
+  </div>
+
+  <script>
+    let selected = null;
+
+    function selectCard(type) {
+      selected = type;
+
+      document.querySelectorAll(".card").forEach(card => {
+        card.classList.remove("selected");
+      });
+
+      document.querySelector("." + type).classList.add("selected");
+    }
+
+    function goResult() {
+      if (!selected) {
+        alert("하나 선택해줘!");
+        return;
+      }
+
+      // 화면 전환
+      document.getElementById("main").classList.remove("active");
+      document.getElementById("resultPage").classList.add("active");
+
+      const title = document.getElementById("resultTitle");
+      const scene = document.getElementById("scene");
+
+      scene.innerHTML = ""; // 초기화
+
+      if (selected === "turtle") {
+        title.innerText = "🐢 힐링 동산";
+
+        scene.className = "scene turtle-scene";
+        scene.innerHTML = `
+          <div class="sun"></div>
+          <div class="hill"></div>
+
+          <div class="cloud c1"></div>
+          <div class="cloud c2"></div>
+
+          <div class="turtle-group">
+            🐢 🐢 🐢 🐢
+          </div>
+        `;
+      } else {
+        title.innerText = "🐧 빙산 놀이터";
+
+        scene.className = "scene penguin-scene";
+        scene.innerHTML = `
+          <div class="snow"></div>
+          <div class="ice"></div>
+
+          <div class="penguin-group">
+            🐧 🐧 🐧
+          </div>
+        `;
+      }
+    }
+
+    function goBack() {
+      document.getElementById("main").classList.add("active");
+      document.getElementById("resultPage").classList.remove("active");
+
+      document.querySelectorAll(".card").forEach(card => {
+        card.classList.remove("selected");
+      });
+
+      selected = null;
+    }
+  </script>
+
+</body>
+</html>
